@@ -1,4 +1,15 @@
 # simple cache simulator - computer organization first assignment
+contents:
+- [intro](#1-introduction)
+- [environment](#2-development-environment)
+- [code provided](#3-code-provided)
+- [tasks](#4-student-tasks)
+    - [Direct-Mapped L1 Cache](#41-direct-mapped-l1-cache)
+    - [Direct-Mapped L2 Cache](#42-direct-mapped-l2-cache)
+    - [2-Way Set Associative L2 Cache](#43-2-way-set-associative-l2-cache)
+- [testing](#5-testing-the-simulator)
+- [report and evaluation](#6-report-and-evaluation)
+
 ## 1 Introduction
 Multilevel cache hierarchies are common in today computers with the first levels of caches integrated in the processor chip.<br>
 
@@ -34,7 +45,7 @@ All the programs developed should be configurable via the Cache.h header, meanin
 > [!IMPORTANT]
 > Students must deliver a header (.h) and source code (.c) file per task (described in the following subsections) on a separate directory, with the number indicated for each task. On each task students must complete and provide a fully functional cache hierarchy (L1 + eventually L2) to be tested.
 
-**All caches, whenever possible, have write-back policy and a LRU block replacement.**
+**All caches, whenever possible, have `write-back` policy and a `LRU` block replacement.**
 
 ### 4.1 Direct-Mapped L1 Cache
 In this task, you must develop a memory hierarchy with only one level with a (L1) **direct mapped cache with several lines** with the parameters provided in the constants file.<br>

@@ -10,7 +10,6 @@ int main() {
   value2 = 0;
 
   write(1, (uint8_t *)(&value1));
-
   clock = getTime();
   printf("Time: %d\n", clock);
 
