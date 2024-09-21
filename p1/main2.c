@@ -6,7 +6,6 @@
 
 #define L1_LINES (L1_SIZE / BLOCK_SIZE)
 #define L2_LINES (L2_SIZE / BLOCK_SIZE)
-#define OFFSET_SIZE 4 // bits
 
 // Structure representing a cache line
 typedef struct CacheLine { 
