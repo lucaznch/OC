@@ -5,7 +5,6 @@
 #include <stdint.h>
 
 #define L1_LINES (L1_SIZE / BLOCK_SIZE)
-#define OFFSET_SIZE 4 // bits
 
 // Structure representing a cache line
 typedef struct CacheLine { 
@@ -54,8 +53,7 @@ uint32_t getTime() {
  * @param memAddress A pointer to the memory address to reset.
  */
 void resetOffset(uint32_t* memAddress) {
-	(*memAddress) = (*memAddress) >> OFFSET_SIZE;
-	(*memAddress) = (*memAddress) << OFFSET_SIZE;
+	(*memAddress) &= ~(BLOCK_SIZE - 1); // clear the lower bits
 }
 
 /**
