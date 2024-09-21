@@ -1,14 +1,14 @@
-# simple cache simulator - computer organization first assignment
+# Simple Cache Simulator - Computer Organization First Assignment
 contents:
-- [intro](#1-introduction)
-- [environment](#2-development-environment)
-- [code provided](#3-code-provided)
-- [tasks](#4-student-tasks)
+- [Intro](#1-introduction)
+- [Environment](#2-development-environment)
+- [Code provided](#3-code-provided)
+- [Tasks](#4-student-tasks)
     - [Direct-Mapped L1 Cache](#41-direct-mapped-l1-cache)
     - [Direct-Mapped L2 Cache](#42-direct-mapped-l2-cache)
     - [2-Way Set Associative L2 Cache](#43-2-way-set-associative-l2-cache)
-- [testing](#5-testing-the-simulator)
-- [report and evaluation](#6-report-and-evaluation)
+- [Testing](#5-testing-the-simulator)
+- [Report and evaluation](#6-report-and-evaluation)
 
 ## 1 Introduction
 Multilevel cache hierarchies are common in today computers with the first levels of caches integrated in the processor chip.<br>

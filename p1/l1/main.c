@@ -119,8 +119,6 @@ void access_main_memory(uint32_t address, uint8_t *data, int mode) {
 void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
 	uint32_t tag, index, offset;
 
-	if (data != NULL && mode == 0) { return; }
-
 	offset = address << (cache_L1.tag_width + cache_L1.index_width);
 	offset = offset >> (cache_L1.tag_width + cache_L1.index_width);
 	index = address << cache_L1.tag_width;
@@ -198,34 +196,44 @@ void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
 	}
 }
 
-
 int main() {
 	int clock1, value;
 
-	// srand(0);
-
+	srand(0);
 	memset(main_memory, 0, DRAM_SIZE);
 
 	for(int n = 1; n <= DRAM_SIZE/4; n*=WORD_SIZE) {
-
 		reset_time();
 		init_cache();
 
 		printf("\nNumber of words: %d\n", (n-1)/WORD_SIZE + 1);
-
 		for(int i = 0; i < n; i+=WORD_SIZE) {
 			access_cache_L1(i, (unsigned char *)(&i), WRITE_MODE);
 			clock1 = get_time();
 			printf("Write; Address %d; Value %d; Time %d\n", i, i, clock1);
 		}
-
 		for(int i = 0; i < n; i+=WORD_SIZE) {
 			access_cache_L1(i, (unsigned char *)(&value), READ_MODE);
 			clock1 = get_time();
 			printf("Read; Address %d; Value %d; Time %d\n", i, value, clock1);
-		}  
-
+		}
 	}
-
+	printf("\nRandom accesses\n");
+	for(int i = 0; i < 100; i++) {
+		int address = rand() % (DRAM_SIZE/4);
+		address = address - address % WORD_SIZE;
+		int mode = rand() % 2;
+		
+		if (mode == READ_MODE) {
+			access_cache_L1(address, (unsigned char *)(&value), READ_MODE);
+			clock1 = get_time();
+			printf("Read; Address %d; Value %d; Time %d\n", address, value, clock1);
+		}
+		else {
+			access_cache_L1(address, (unsigned char *)(&address), WRITE_MODE);
+			clock1 = get_time();
+			printf("Write; Address %d; Value %d; Time %d\n", address, address, clock1);
+		}
+	}
 	return 0;
 }
