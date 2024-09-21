@@ -167,17 +167,19 @@ void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
 		uint8_t temp[BLOCK_SIZE];
 
 		// there was a miss in this line
-		// 1. this line was valid but with a diff tag
-		// 2. this line was not valid
+		// => this line was valid but with a diff tag OR this line was not valid
+
+		// if the line was valid but with a diff tag
+		// we are going to replace the block in this line from the old tag with the block from the new tag
+		// we need to check if it is dirty and if so, we update in RAM before replacing it!
+		if (cache_L1.lines[index].dirty) {
+			access_main_memory(address, cache_L1.lines[index].data, WRITE_MODE);
+		}
+
+		// start replacing the current line
 		cache_L1.lines[index].valid = 1;
 		cache_L1.lines[index].dirty = 0;
 		cache_L1.lines[index].tag = tag;
-
-		// TODO ?
-		// if the line was valid but with a diff tag
-		// we are going to replace the block from the old tag with the block from the new tag
-		// we need to check if it is dirty and if so, we update in RAM before replacing it!
-
 
 
 		access_main_memory(address, temp, READ_MODE);				// get the block the contains the address
