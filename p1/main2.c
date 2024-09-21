@@ -153,7 +153,7 @@ void accessL2(uint32_t address, uint8_t *data, uint32_t mode) {
 	if (mode == MODE_READ) { // read from l2 cache
 		memcpy(data, &(refLine->block[offset]), WORD_SIZE);
 		time += L2_READ_TIME;
-	} else if (mode == MODE_WRITE) { // write from l1 cache
+	} else if (mode == MODE_WRITE) { // write from l2 cache
 		memcpy(&(refLine->block[offset]), data, WORD_SIZE);
 		time += L2_WRITE_TIME;
 		refLine->dirty = 1;
