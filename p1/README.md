@@ -1,5 +1,5 @@
 # Simple Cache Simulator - Computer Organization First Assignment
-contents:
+Contents:
 - [Intro](#1-introduction)
 - [Environment](#2-development-environment)
 - [Code provided](#3-code-provided)
