@@ -4,9 +4,9 @@ Contents:
 - [Environment](#2-development-environment)
 - [Code provided](#3-code-provided)
 - [Tasks](#4-student-tasks)
-    - [Direct-Mapped L1 Cache](#41-direct-mapped-l1-cache)
-    - [Direct-Mapped L2 Cache](#42-direct-mapped-l2-cache)
-    - [2-Way Set Associative L2 Cache](#43-2-way-set-associative-l2-cache)
+    - [1. Direct-Mapped L1 Cache](#41-direct-mapped-l1-cache)
+    - [2. Direct-Mapped L2 Cache](#42-direct-mapped-l2-cache)
+    - [3. 2-Way Set Associative L2 Cache](#43-2-way-set-associative-l2-cache)
 - [Testing](#5-testing-the-simulator)
 - [Report and evaluation](#6-report-and-evaluation)
 
@@ -50,17 +50,23 @@ All the programs developed should be configurable via the Cache.h header, meanin
 ### 4.1 Direct-Mapped L1 Cache
 In this task, you must develop a memory hierarchy with only one level with a (L1) **direct mapped cache with several lines** with the parameters provided in the constants file.<br>
 
-Students must copy `SimpleCache.c` and `SimpleCache.h` to `L1Cache.c` and `L1Cache.h`, respectively, and modify the code to simulate this cache.
+Students must copy `SimpleCache.c` and `SimpleCache.h` to `L1Cache.c` and `L1Cache.h`, respectively, and modify the code to simulate this cache.<br>
+
+- Implementation: [direct-mapped l1 cache](task1/)
 
 ### 4.2 Direct-Mapped L2 Cache
 In this task, you must develop an **direct mapped L2 cache** with the parameters specified in the constants file.<br>
 
-In the resulting two-level cache hierarchy you must use the Direct-Mapped L1 Cache developed in the previous task.
+In the resulting two-level cache hierarchy you must use the Direct-Mapped L1 Cache developed in the previous task.<br>
+
+- Implementation: [memory hierarchy with direct-mapped l1 and l2 cache](task2/)
 
 ### 4.3 2-Way Set Associative L2 Cache
 In this task, you must change the organization and control of the L2 cache developed in the previous task to implement a **two way set-associative L2 cache**. Note that, the other parameters remain the same, in particular the L2Size value.<br>
 
-In the resulting two-level cache hierarchy you must use the Direct-Mapped L1 Cache developed in the first task.
+In the resulting two-level cache hierarchy you must use the Direct-Mapped L1 Cache developed in the first task.<br>
+
+- Implementation: [memory hierarchy with direct-mapped l1 cache and 2-way set associative l2 cache](task3/)
 
 ## 5 Testing the Simulator
 The faculty will provide some test traces for you to test your implementations. Nevertheless, you are strongly encouraged to design and develop your own tests.
