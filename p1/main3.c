@@ -6,7 +6,7 @@
 
 #define L1_LINES (L1_SIZE / BLOCK_SIZE)
 #define L2_LINES (L2_SIZE / BLOCK_SIZE)
-#define SET_NUMBER 2
+#define LINES_PER_SET 2
 
 // Structure representing a cache line
 typedef struct CacheLine { 
@@ -17,20 +17,20 @@ typedef struct CacheLine {
 } CacheLine;
 
 typedef struct CacheSet { 
-    CacheLine lines[SET_NUMBER];
+    CacheLine lines[LINES_PER_SET];
     uint8_t lru; // 0 for line 0 is LRU, 1 for line 1 is LRU
 } CacheSet;
 
 // Structure representing L1 cache
 typedef struct Cache {
     uint32_t init; // initialization flag
-    CacheSet sets[L1_LINES / SET_NUMBER];
+    CacheSet sets[L1_LINES / LINES_PER_SET];
 } Cache;
 
 // Structure representing L2 cache
 typedef struct CacheL2 {
     uint32_t init; // initialization flag
-    CacheSet sets[L2_LINES / SET_NUMBER];
+    CacheSet sets[L2_LINES / LINES_PER_SET];
 } CacheL2;
 
 // Global variables
@@ -136,7 +136,7 @@ void accessL2(uint32_t address, uint8_t *data, uint32_t mode) {
     int hitLine = -1;
 
     // Check both lines in the set
-    for (int i = 0; i < SET_NUMBER; i++) {
+    for (int i = 0; i < LINES_PER_SET; i++) {
         refLine = &set->lines[i];
         if (refLine->valid && refLine->tag == tag) { // cache hit
             hitLine = i;
@@ -197,7 +197,7 @@ void accessL1(uint32_t address, uint8_t *data, uint32_t mode) {
     int hitLine = -1;
 
     // Check both lines in the set
-    for (int i = 0; i < SET_NUMBER; i++) {
+    for (int i = 0; i < LINES_PER_SET; i++) {
         refLine = &set->lines[i];
         if (refLine->valid && refLine->tag == tag) { // cache hit
             hitLine = i;
