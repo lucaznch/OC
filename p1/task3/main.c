@@ -231,18 +231,17 @@ void access_cache_L2(uint32_t address, uint8_t *data, int mode) {
 			if (mode == READ_MODE) {
 				memcpy(data, &(cache_L2.sets[index].lines[i].data[offset]), WORD_SIZE);
 				time += L2_READ_TIME;
-				break;
 			}
 			else {
 				memcpy(&(cache_L2.sets[index].lines[i].data[offset]), data, WORD_SIZE);
 				cache_L2.sets[index].lines[i].dirty = 1;
 				time += L2_WRITE_TIME;
-				break;
 			}
 
 			// the other line is now the LRU
 			cache_L2.sets[index].lru = (i + 1) % 2;
 			miss = 0;
+			break;
 		}
 	}	
 
