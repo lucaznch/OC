@@ -50,6 +50,7 @@ typedef struct cache_line {
 	uint8_t valid;
 	uint8_t dirty;
 	uint32_t tag;
+	uint32_t off;
 	uint8_t data[BLOCK_SIZE];
 } CacheLine;
 
@@ -117,13 +118,24 @@ void access_main_memory(uint32_t address, uint8_t *data, int mode) {
 /// @param data data read/written at address
 /// @param mode memory access mode (read or write)
 void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
-	uint32_t tag, index, offset;
+	uint32_t tag, index, offset, mask;
 
+	/*
 	offset = address << (cache_L1.tag_width + cache_L1.index_width);
 	offset = offset >> (cache_L1.tag_width + cache_L1.index_width);
 	index = address << cache_L1.tag_width;
 	index = index >> (cache_L1.tag_width + cache_L1.offset_width);
-	tag = address >> (cache_L1.offset_width + cache_L1.index_width);
+	tag = address >> (cache_L1.offset_width + cache_L1.index_width);	
+	 
+	*/
+
+	offset = address % BLOCK_SIZE;
+
+	index = (address / BLOCK_SIZE) % NUM_OF_LINES_L1;
+
+	tag = address / (BLOCK_SIZE * NUM_OF_LINES_L1);
+
+
 
 	// the current offset indicates the selected byte in the block out of 64 bytes (0-63)
 	// since we want to read/write one WORD (4 bytes)
@@ -133,7 +145,9 @@ void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
 	// offset = 51 must be turned into 48 to be the first byte of the word
 	// | word 0  | ... |      word 11     |      word 12     |     word 13      | ... |      word 15     |
 	// | 0 1 2 3 | ... | (44)(45)(46)(47) | (48)(49)(50)(51) | (52)(53)(54)(55) | ... | (60)(61)(62)(63) |
-	if (offset % 4 != 0) { while (offset % 4 != 0) { offset--; } }
+	// if (offset % 4 != 0) { while (offset % 4 != 0) { offset--; } }
+
+	printf("looking for address:%u, tag:%u, index:%u, offset:%u\n", address, tag, index, offset);
 
 	// HIT
 	// read/write one word from the block of data
@@ -141,18 +155,19 @@ void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
 		if (mode == READ_MODE) {
 			memcpy(data, &(cache_L1.lines[index].data[offset]), WORD_SIZE);
 			time += L1_READ_TIME;
-			//printf("R - cache hit.\taddress: %u\tdata read: %u\ttime: %u\n", address, *data, time);
+			printf("\033[32mL1 hit\033[0m, mode: READ, address: %u, data: %u, time: %u\n\n", address, *data, time);
 		}
 		else {
 			if (cache_L1.lines[index].dirty) {
 				// note that if this line is dirty
 				// i.e. it was written something in it and not in RAM
 				// we don't need to update RAM since this block is only getting modified and not replaced!
-			}		
+			}	
+
 			memcpy(&(cache_L1.lines[index].data[offset]), data, WORD_SIZE);
 			cache_L1.lines[index].dirty = 1;
 			time += L1_WRITE_TIME;
-			//printf("W - cache hit.\taddress: %u\tdata written: %u\ttime: %u\n", address, *data, time);
+			printf("\033[32mL1 hit\033[0m, mode: WRITE, address: %u, data: %u, time: %u\n\n", address, *data, time);
 		}
 	}
 
@@ -171,13 +186,19 @@ void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
 		// we are going to replace the block in this line from the old tag with the block from the new tag
 		// we need to check if it is dirty and if so, we update in RAM before replacing it!
 		if (cache_L1.lines[index].dirty) {
-			access_main_memory(address, cache_L1.lines[index].data, WRITE_MODE);
+
+			uint32_t n, ind = index << 6;
+			n = cache_L1.lines[index].tag + cache_L1.lines[index].off + ind;
+			printf("dirty. curr: %d\told:%d\n", address, n);
+			access_main_memory(n, cache_L1.lines[index].data, WRITE_MODE);
 		}
 
 		// start replacing the current line
 		cache_L1.lines[index].valid = 1;
 		cache_L1.lines[index].dirty = 0;
 		cache_L1.lines[index].tag = tag;
+		cache_L1.lines[index].off = offset;
+
 
 
 		access_main_memory(address, temp, READ_MODE);				// get the block the contains the address
@@ -187,16 +208,103 @@ void access_cache_L1(uint32_t address, uint8_t *data, int mode) {
 		if (mode == READ_MODE) {
 			memcpy(data, &(cache_L1.lines[index].data[offset]), WORD_SIZE);
 			time += L1_READ_TIME;
+			printf("\033[31mL1 miss\033[0m, mode: READ, address: %u, data: %u, time: %u\n\n", address, *data, time);
 		}
 		else {
 			memcpy(&(cache_L1.lines[index].data[offset]), data, WORD_SIZE);
 			cache_L1.lines[index].dirty = 1;	// set this line as dirty to indicate that something new was written to it and not to RAM
 			time += L1_WRITE_TIME;
+			printf("\033[31mL1 miss\033[0m, mode: WRITE, address: %u, data: %u, time: %u\n\n", address, *data, time);
 		}
 	}
 }
 
 int main() {
+
+	int i, k;
+	uint8_t first_block[BLOCK_SIZE], data;
+	uint32_t mem_addr;
+
+
+
+	printf("\033[33m\nblock of data placed in RAM\n\n\033[0m");
+
+	for (i = 0; i < BLOCK_SIZE; i++) {
+
+		data = rand() % 256;
+		first_block[i] = data;
+
+		if (i != 0 && (i % 4) == 0) { printf("  <-  word %d\n", (i/4)-1); }
+		printf("byte %d = %u\t", i, data);
+	}
+	printf("  <-  word %d\n\n\n", (i/4)-1);
+	memcpy(&main_memory, &first_block, BLOCK_SIZE);
+
+	for (i = 16384; i < BLOCK_SIZE; i++) {
+
+		data = rand() % 256;
+		first_block[i] = data;
+	}
+
+
+	printf("\033[33m\nblock of data in line 0 in L1 cache\n\033[0m");
+	for (i = 0; i < BLOCK_SIZE; i++) {
+		if (i != 0 && (i % 4) == 0) { printf("  <-  word %d\n", (i/4)-1); }
+		printf("byte %d = %u\t", i, cache_L1.lines[0].data[i]);
+	}
+	printf("  <-  word %d\n\n\n\n", (i/4)-1);
+
+
+
+	mem_addr = 2;
+	access_cache_L1(mem_addr, &data, READ_MODE);
+
+	reset_time();
+	access_cache_L1(mem_addr, &data, READ_MODE);
+
+
+	printf("\033[33m\nblock of data in line 0 in L1 cache after copying block from RAM\n\033[0m");
+	for (i = 0; i < BLOCK_SIZE; i++) {
+		if (i != 0 && (i % 4) == 0) { printf("  <-  word %d\n", (i/4)-1); }
+		printf("byte %d = %u\t", i, cache_L1.lines[0].data[i]);
+	}
+	printf("  <-  word %d\n\n\n", (i/4)-1);
+
+
+	mem_addr = 7;
+	reset_time();
+	access_cache_L1(mem_addr, &data, READ_MODE);
+
+	mem_addr = 2;
+	data = 222;
+	reset_time();
+	access_cache_L1(mem_addr, &data, WRITE_MODE);
+	printf("\t\twrite-back checker: data DRAM at %u = %u\n\n\n\n", 2, main_memory[2]);
+
+
+	mem_addr = 16389;
+	data = 111;
+	reset_time();
+	access_cache_L1(mem_addr, &data, WRITE_MODE);
+	printf("\t\twrite-back checker: data DRAM at %u = %u\n\n\n\n", 2, main_memory[2]);
+
+
+
+	/* 
+	data = 44;
+	reset_time();
+	access_cache_L1(mem_addr, &data, WRITE_MODE);
+	printf("\t\twrite-back checker: data DRAM at %u = %u\n\n\n\n", mem_addr, main_memory[mem_addr]);
+
+
+	mem_addr = 7;
+	reset_time();
+	access_cache_L1(mem_addr, &data, WRITE_MODE);
+
+	*/
+
+
+	/*
 	int clock1, value;
 
 	srand(0);
@@ -235,5 +343,6 @@ int main() {
 			printf("Write; Address %d; Value %d; Time %d\n", address, address, clock1);
 		}
 	}
+	*/
 	return 0;
 }
