@@ -325,7 +325,7 @@ int16_t temp[N][N];     // extra array
 
     - **mm1 vs mm2**
 
-    - $\Delta\text{Hit Rate}$ = $\text{Hit Rate}_{2} - \text{Hit Rate}_{1}$
+    - $\Delta\text{Hit Rate}$ = $\text{Hit Rate}_2 - \text{Hit Rate}_1$
         - $\Delta\text{Hit Rate} = 0.9921479619 - 0.7482235559 = 0.243924406 \leadsto$ 24% 
 
     - **speedup(number of clocks)**
