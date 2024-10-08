@@ -323,7 +323,7 @@ int16_t temp[N][N];     // extra array
 
 - **d)** Compare the obtained results with those that were obtained for the straightforward implementation, by calculating the difference of the resulting hit-rates ($\Delta\text{Hit Rate}$) and the obtained speedups.
 
-    - $\Delta\text{Hit Rate} = \text{Hit Rate}_{\text{mm2}} - \text{Hit Rate}_{\text{mm1}}$
+    - $\Delta\text{Hit Rate} = \text{Hit Rate}_{mm2} - \text{Hit Rate}_{mm1}$
         - $\Delta\text{Hit Rate} = 0.9921479619 - 0.7482235559 = 0.243924406 \leadsto$ 24% 
 
     - **speedup(number of clocks)**
