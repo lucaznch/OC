@@ -329,12 +329,12 @@ int16_t temp[N][N];     // extra array
         - $\Delta\text{Hit Rate} = 0.9921479619 - 0.7482235559 = 0.243924406 \leadsto$ 24% 
 
     - **speedup(number of clocks)**
-        - speedup(number of clocks) = $\frac{\text{number of cloks}_{1}}{\text{number of cloks}_{mm2}} = \frac{586.932123 \times 10^6}{538.888020 \times 10^6} = 1.089154149$
-            - $\text{number clocks}_{2} = 1.089154149 \times \text{number clocks}_{1}$
+        - speedup(number of clocks) = $\frac{\text{number of cloks}_1}{\text{number of cloks}_2} = \frac{586.932123 \times 10^6}{538.888020 \times 10^6} = 1.089154149$
+            - $\text{number clocks}_2 = 1.089154149 \times \text{number clocks}_1$
 
     - **speedup(time)**
-        - speedup(time) = $\frac{\text{time}_{1}}{\text{time}_{2}} = \frac{0.195646}{0.179631} = 1.08915499$
-            - $\text{number clocks}_{2} = 1.08915499 \times \text{number clocks}_{1}$
+        - speedup(time) = $\frac{\text{time}_1}{\text{time}_2} = \frac{0.195646}{0.179631} = 1.08915499$
+            - $\text{number clocks}_2 = 1.08915499 \times \text{number clocks}_1$
 
     - comment:
         - foi obtido um speedup muito pequeno em comparação com a implementação original, mesmo que o hit rate aumentou significativamente para mais de 24%
