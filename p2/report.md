@@ -321,18 +321,20 @@ int16_t temp[N][N];     // extra array
     - Comment on the obtained results when including the matrix transposition in the execution time.
         - não há grande diferença em termos de tempo de execução e verifica-se com os resultados obtidos, pois o processo intensivo é a multiplicação de matrizes que é $O(N^3)$ enquanto a transposição da matriz é $O(N^2)$
 
-- **d)** Compare the obtained results with those that were obtained for the straightforward implementation, by calculating the difference of the resulting hit-rates ($\Delta\text{Hit Rate}$) and the obtained speedups.
+- **d)** Compare the obtained results with those that were obtained for the straightforward implementation, by calculating the difference of the resulting hit-rates ($\Delta\text{Hit Rate}$) and the obtained speedups. 
 
-    - $\Delta\text{Hit Rate}$ = $\text{Hit Rate}_{mm2} - \text{Hit Rate}_{mm1}$
+    - **mm1 vs mm2**
+
+    - $\Delta\text{Hit Rate}$ = $\text{Hit Rate}_{2} - \text{Hit Rate}_{1}$
         - $\Delta\text{Hit Rate} = 0.9921479619 - 0.7482235559 = 0.243924406 \leadsto$ 24% 
 
     - **speedup(number of clocks)**
-        - speedup(number of clocks) = $\frac{\text{number of cloks}_{\text{mm1}}}{\text{number of cloks}_{\text{mm2}}} = \frac{586.932123 \times 10^6}{538.888020 \times 10^6} = 1.089154149$
-            - $\text{number clocks}_{\text{mm2}} = 1.089154149 \times \text{number clocks}_{\text{mm1}}$
+        - speedup(number of clocks) = $\frac{\text{number of cloks}_{1}}{\text{number of cloks}_{mm2}} = \frac{586.932123 \times 10^6}{538.888020 \times 10^6} = 1.089154149$
+            - $\text{number clocks}_{2} = 1.089154149 \times \text{number clocks}_{1}$
 
     - **speedup(time)**
-        - speedup(time) = $\frac{\text{time}_{\text{mm1}}}{\text{time}_{\text{mm2}}} = \frac{0.195646}{0.179631} = 1.08915499$
-            - $\text{number clocks}_{\text{mm2}} = 1.08915499 \times \text{number clocks}_{\text{mm1}}$
+        - speedup(time) = $\frac{\text{time}_{1}}{\text{time}_{2}} = \frac{0.195646}{0.179631} = 1.08915499$
+            - $\text{number clocks}_{2} = 1.08915499 \times \text{number clocks}_{1}$
 
     - comment:
         - foi obtido um speedup muito pequeno em comparação com a implementação original, mesmo que o hit rate aumentou significativamente para mais de 24%
