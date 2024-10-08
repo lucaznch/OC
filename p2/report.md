@@ -35,7 +35,7 @@ check the [pdf]() for the assignment description
     - 1 instance:
         - `L1d` = `L1i` = 192/6 KiB = **32 Kib**
         - `L1` = **64 KiB**
-        - `L2` = $\frac{(1.5 \times 2^20)}{6} \ \text{Bytes} = 262144 \ \text{Bytes} = 256 \times 2^{10} \ \text{Bytes} = $  **256 KiB**
+        - `L2` = $\frac{(1.5 \times 2^20)}{6} \ \text{Bytes} = 262144 \ \text{Bytes} = 256 \times 2^{10} \ \text{Bytes}$ =  **256 KiB**
         - `L3` = **9 MiB**
 
 - TODO!
@@ -441,4 +441,4 @@ lscpu:
 - {cache: L3}      9 MiB (1 instance)
 ```
 
-- correto exceto para associatividade da L2 (deu 8, e o verdadeiro é ) 
+- correto exceto para associatividade da L2 (deu 8, e o verdadeiro é 4) 
