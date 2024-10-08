@@ -243,7 +243,7 @@ The goal is to model the characteristics of the L1 data cache and L2 cache of th
     - **hit rate** = 1 - **miss rate**
     - **miss rate** = $\frac{\text{misses}}{\text{total accesses}} = \frac{\text{PAPI-L1-DCM}}{\text{PAPI-LD-INS + PAPI-SR-INS}}$
 
-    - logo, **hit rate** $ = \frac{135.171747 \times 10^6}{536.872095 \times 10^6} = 0.7482235559$
+    - logo, **hit rate** = $\frac{135.171747 \times 10^6}{536.872095 \times 10^6} = 0.7482235559$
 
 <br>
 <br>
@@ -289,7 +289,7 @@ int16_t temp[N][N];     // extra array
     - **hit rate** = 1 - **miss rate**
     - **miss rate** = $\frac{\text{misses}}{\text{total accesses}} = \frac{\text{PAPI-L1-DCM}}{\text{PAPI-LD-INS + PAPI-SR-INS}}$
 
-    - logo, **hit rate** $ = \frac{4.215540 \times 10^6}{536.872076 \times 10^6} = 0.9921479619$
+    - logo, **hit rate** = $\frac{4.215540 \times 10^6}{536.872076 \times 10^6} = 0.9921479619$
 
 <br>
 
@@ -396,7 +396,7 @@ int16_t res[N][N] __attribute__((aligned(CACHE_LINE_SIZE)));
     - **hit rate** = 1 - **miss rate**
     - **miss rate** = $\frac{\text{misses}}{\text{total accesses}} = \frac{\text{PAPI-L1-DCM}}{\text{PAPI-LD-INS + PAPI-SR-INS}}$
 
-    - logo, **hit rate** $ = \frac{3.079920 \times 10^6}{537.945171 \times 10^6} = 0.9942746582$
+    - logo, **hit rate** = $\frac{3.079920 \times 10^6}{537.945171 \times 10^6} = 0.9942746582$
 
 <br>
 
