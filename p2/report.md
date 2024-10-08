@@ -404,16 +404,18 @@ int16_t res[N][N] __attribute__((aligned(CACHE_LINE_SIZE)));
 
 - **d)** Compare the obtained results with those that were obtained for the straightforward implementation, by calculating the difference of the resulting hit-rates ($\Delta\text{Hit Rate}$) and the obtained speedup.
 
-    - $\Delta\text{Hit Rate} = \text{Hit Rate}_{\text{mm3}} - \text{Hit Rate}_{\text{mm1}}$
+    - **mm1 vs mm3**
+
+    - $\Delta\text{Hit Rate}$ = $\text{Hit Rate}_3 - \text{Hit Rate}_1$
         - $\Delta\text{Hit Rate} = 0.9942746582 - 0.7482235559 = 0.2460511023 \leadsto$ 24% 
 
     - **speedup(number of clocks)**
-        - speedup(number of clocks) = $\frac{\text{number of cloks}_{\text{mm1}}}{\text{number of cloks}_{\text{mm3}}} = \frac{586.932123 \times 10^6}{240.897716 \times 10^6} = 2.43643706$
-            - $\text{number clocks}_{\text{mm3}} = 2.43643706 \times \text{number clocks}_{\text{mm1}}$
+        - speedup(number of clocks) = $\frac{\text{number of cloks}_1}{\text{number of cloks}_3} = \frac{586.932123 \times 10^6}{240.897716 \times 10^6} = 2.43643706$
+            - $\text{number clocks}_3 = 2.43643706 \times \text{number clocks}_1$
 
     - **speedup(time)**
-        - speedup(time) = $\frac{\text{time}_{\text{mm1}}}{\text{time}_{\text{mm3}}} = \frac{0.195646}{0.080299} = 2.436468698$
-            - $\text{number clocks}_{\text{mm3}} = 2.436468698 \times \text{number clocks}_{\text{mm1}}$
+        - speedup(time) = $\frac{\text{time}_1}{\text{time}_3} = \frac{0.195646}{0.080299} = 2.436468698$
+            - $\text{number clocks}_3 = 2.436468698 \times \text{number clocks}_1$
     
     - comment:
         - foi obtido um speedup melhor em relação ao de mm2 com mm1
@@ -422,12 +424,14 @@ int16_t res[N][N] __attribute__((aligned(CACHE_LINE_SIZE)));
 
 - **e)** Compare the obtained results with those that were obtained for the matrix transpose implementation by calculating the difference of the resulting hit-rates ($\Delta\text{Hit Rate}$) and the obtained speedup. If the obtained speedup is positive, but the difference of the resulting hit-rates is negative, how do you explain the performance improvement? (Hint: study the hit-rates of the L2 cache for both implementations;)
 
-    - $\Delta\text{Hit Rate} = \text{Hit Rate}_{\text{mm3}} - \text{Hit Rate}_{\text{mm2}}$
+    - **mm2 vs mm3**
+
+    - $\Delta\text{Hit Rate}$ = $\text{Hit Rate}_3 - \text{Hit Rate}_2$
         - $\Delta\text{Hit Rate} = 0.9942746582 - 0.9921479619 = 0.0021266963 \leadsto$ 24% 
 
     - **speedup(number of clocks)**
-        - speedup(number of clocks) = $\frac{\text{number of cloks}_{\text{mm2}}}{\text{number of cloks}_{\text{mm3}}} = \frac{538.888020 \times 10^6}{240.897716 \times 10^6} = 2.236999291$
-            - $\text{number clocks}_{\text{mm3}} = 2.236999291 \times \text{number clocks}_{\text{mm2}}$
+        - speedup(number of clocks) = $\frac{\text{number of cloks}_2}{\text{number of cloks}_3} = \frac{538.888020 \times 10^6}{240.897716 \times 10^6} = 2.236999291$
+            - $\text{number clocks}_3 = 2.236999291 \times \text{number clocks}_2$
 
 <br>
 <br>
