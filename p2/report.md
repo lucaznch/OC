@@ -38,7 +38,17 @@ check the [pdf]() for the assignment description
         - `L2` = $\frac{(1.5 \times 2^20)}{6} \ \text{Bytes} = 262144 \ \text{Bytes} = 256 \times 2^{10} \ \text{Bytes}$ =  **256 KiB**
         - `L3` = **9 MiB**
 
-- TODO!
+
+array size (KiB) | elapsed time (s) | number of accesses a[i] | mean access time
+-----------------|------------------|-------------------------|-------------------
+8		         | 0.001778     	|                         |
+16		         | 0.003616	        |                         |
+32		         | 0.007338	        |                         |
+64		         | 0.012161	        |                         |
+128		         | 0.024445	        |                         |
+256		         | 0.052076	        |                         |
+
+
 
 <br>
 <br>
@@ -50,7 +60,7 @@ Consider the data presented in Figure 1. Answer the following questions (2, 3, 4
 <br>
 <br>
 
-2. What is the cache capacity?
+2. **What is the cache capacity?**
     - figura 1 temos dois grupos de array sizes que se distinguem pelos tempos de acesso à cache.
         - grupo 1:
             - sizes: [4K, 64K]
@@ -65,24 +75,25 @@ Consider the data presented in Figure 1. Answer the following questions (2, 3, 4
 
 <br>
 
-3. What is the size of each cache block?
+3. **What is the size of each cache block?**
     - vendo os tempos de acesso do grupo 2, que são os mais penalizados, reparamos que com **stride = 16** os tempos de acesso começam a estabilizar
     - o tempo de acesso estabiliza quando o stride é igual ou maior ao cache block size, dado que cada elemento do array corresponde a um bloco diferente resultando num miss rate de aproximadamente 100% que será igual para todos os strides seguintes
     
     - exemplo:
-        - stride = 16 && sendo cada elemento 1 byte:
+        - stride = 16 && sendo cada elemento 2 bytes (`int16_t`):
             - acesso 1: a[0]: miss -> copiar a[0]- a[15]
             - acesso 2: a[16]: miss -> copiar a[16]- a[31]
             - ...
+                - copiar 16 elementos => 16 $\times$ 2 B = 32 Bytes
 
-    - logo, o cache block size é igual a **16 Bytes**
+    - logo, o cache block size é igual a **32 Bytes**
 
 > [!NOTE]
 > **stride** - states how many entries are being skipped at each access; for example, if the stride is 4, entries 0, 4, 8, 12, ... in the array are being accessed, while entries 1, 2, 3, 5, 6, 7, 9, 10, 11, ... are skipped;
 
 <br>
 
-4. What is the L1 cache miss penalty time?
+4. **What is the L1 cache miss penalty time?**
     - comparamos o tempo de acesso quando o miss rate é aproximadamente 0% com o tempo de acesso quando o miss rate é aproximadamente 100%
         - miss rate $\simeq$ 0% $\to$ grupo 1
             - para array sizes menores que o cache size com stride $\leqslant$ cache block size = 16
@@ -120,7 +131,7 @@ The goal is to model the characteristics of the L1 data cache and L2 cache of th
 <br>
 
 - **c)** By analyzing the obtained results:
-    - Determine the size of the L1 data cache. Justify your answer.
+    - **Determine the size of the L1 data cache**. Justify your answer.
         - temos dois grupos de array sizes que se distinguem pelos avg. misses
             - grupo 1:
                 - sizes: {16KB, 32KB}
@@ -134,16 +145,20 @@ The goal is to model the characteristics of the L1 data cache and L2 cache of th
 
     <br>
 
-    - Determine the block size adopted in this cache. Justify your answer.
+    - **Determine the block size adopted in this cache**. Justify your answer.
         - vendo os avg. misses do grupo 2, que são os mais penalizados, reparamos que com **stride = 64** os avg. misses começam a estabilizar
         - os avg. misses estabilizam quando o stride é igual ou maior ao cache block size, dado que cada elemento do array corresponde a um bloco diferente resultando num miss rate de aproximadamente 100% que será igual para todos os strides seguintes
         - logo, o cache block size é igual a **64 Bytes**
 
     <br>
 
-    - Characterize the associativity set size adopted in this cache. Justify your answer.
+    - **Characterize the associativity set size adopted in this cache**. Justify your answer.
         - associativity = 8
         - TODO
+
+
+<br>
+<br>
 
 #### 3.1.2 Modeling the L2 Cache
 
@@ -165,7 +180,7 @@ The goal is to model the characteristics of the L1 data cache and L2 cache of th
 <br>
 
 - **c)** By analyzing the obtained results:
-    - Determine the size of the L2 data cache. Justify your answer.
+    - **Determine the size of the L2 data cache**. Justify your answer.
         - temos dois grupos de array sizes que se distinguem pelos avg. misses
             - grupo 1:
                 - sizes: {128KB, 256KB}
@@ -179,14 +194,16 @@ The goal is to model the characteristics of the L1 data cache and L2 cache of th
 
     <br>
 
-    - Determine the block size adopted in this cache. Justify your answer.
+    - **Determine the block size adopted in this cache**. Justify your answer.
         - TODO
+        - cache block size = 64
+
 
     <br>
 
-    - Characterize the associativity set size adopted in this cache. Justify your answer.
-        - associativity = 8
+    - **Characterize the associativity set size adopted in this cache**. Justify your answer.
         - TODO
+        - associativity = 8
 
 <br>
 <br>
@@ -448,3 +465,24 @@ lscpu:
 ```
 
 - correto exceto para associatividade da L2 (deu 8, e o verdadeiro é 4) 
+
+
+
+<br>
+<br>
+
+$$
+\sigma_{populacao} = \sqrt{\frac{1}{n-1}\cdot \sum_{i=1}^n (x_i - \bar{x})^2}
+$$
+
+
+$$
+\mathcal{N}
+$$
+
+
+
+
+
+
+
