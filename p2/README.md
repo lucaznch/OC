@@ -1,3 +1,3 @@
 # hardware profiling (cache) - computer organization second assignment
-
-description: [pdf](p2.pdf)
+- [description](p2.pdf)
+- [our solution](report.pdf)
